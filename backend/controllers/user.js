@@ -13,17 +13,17 @@ exports.register = async (req, res) => {
       });
     }
 
-    // const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-    //   folder: "avatar",
-    // });
+    const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+      folder: "avatar",
+    });
 
     user = await User.create({
       name,
       email,
       password,
       avatar: {
-        public_id: "myCloud.public_id",
-        url: "myCloud.secure_url",
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
       },
     });
 

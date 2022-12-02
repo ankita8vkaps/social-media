@@ -3,11 +3,13 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 var bodyParser = require("body-parser");
+var cors = require("cors");
 
 //using middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(cors());
 
 dotenv.config();
 

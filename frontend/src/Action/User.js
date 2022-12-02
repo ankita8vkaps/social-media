@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const signup = (name, email, password) => async (dispatch) => {
+export const signup = (name, email, password,avatar) => async (dispatch) => {
   try {
     dispatch({
       type: "SIGNUP_REQ",
@@ -8,7 +8,7 @@ export const signup = (name, email, password) => async (dispatch) => {
 
     const { data } = await axios.post(
       "api/v1/user-signup",
-      { name, email, password },
+      { name, email, password,avatar},
       {
         headers: {
           "Content-Type": "application/json",

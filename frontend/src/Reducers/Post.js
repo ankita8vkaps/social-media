@@ -46,17 +46,6 @@ export const postReducer = createReducer(initialState, {
     state.loading = false;
     state.error = action.payload;
   },
-  DELETE_POST_REQ: (state) => {
-    state.loading = true;
-  },
-  DELETE_POST_SUCC: (state, action) => {
-    state.loading = false;
-    state.posts = action.payload;
-  },
-  DELETE_POST_FAIL: (state, action) => {
-    state.loading = false;
-    state.error = action.payload;
-  },
   MY_POST_REQ: (state) => {
     state.loading = true;
   },

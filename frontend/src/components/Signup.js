@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { signup } from "../Action/User";
 import { Avatar } from "@mui/material";
+
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -13,33 +14,38 @@ const Signup = () => {
 
   const dispatch = useDispatch();
   const alert = useAlert();
-  const { loading, error } = useSelector((state) => state.user);
+  let navigate = useNavigate();
+  const { loading, error, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signup(name, email, password));
+    dispatch(signup(name, email, password,avatar));
   };
 
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
 
-  //   const Reader = new FileReader();
-  //   Reader.readAsDataURL(file);
+    const Reader = new FileReader();
+    Reader.readAsDataURL(file);
 
-  //   Reader.onload = () => {
-  //     if (Reader.readyState === 2) {
-  //       setAvatar(Reader.result);
-  //     }
-  //   };
-  // };
+    Reader.onload = () => {
+      if (Reader.readyState === 2) {
+        setAvatar(Reader.result);
+      }
+    };
+  };
 
   useEffect(() => {
-    // console.log("File has been set.",avatar);
-
+    
     if (error) {
       alert.error(error);
     }
-  }, [error, alert]);
+    if (isAuthenticated) {
+      navigate("/home");
+    }
+  }, [error, alert, dispatch, isAuthenticated,navigate]);
 
   return (
     <>
@@ -49,17 +55,10 @@ const Signup = () => {
             onSubmit={handleSubmit}
             className="max-w-[400px] w-full mx-auto p-8 px-8 rounded-lg bg-sky-900"
           >
-            {/* <div className="flex justify-center text-gray-200 py-2">
+            <div className="flex justify-center text-gray-200 py-2">
               <Avatar alt="Remy Sharp" src="" sx={{ width: 56, height: 56 }} />
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
-                onChange={(e) => setAvatar(e.target.files[0])}
-                value={""}
-                className="rounded-lg mt-2 p-1 text-black"
-              ></input>
-            </div> */}
+              <input type="file" accept="image/*" onChange={handleImageChange} />
+            </div>
 
             <div className="text-center text-slate-50 font-semibold text-4xl">
               <h2>Sign-Up</h2>
